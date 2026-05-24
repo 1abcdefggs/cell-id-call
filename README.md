@@ -38,7 +38,7 @@ toc_generator.generate_advanced_toc(
 ```
 
 ### Standalone Version
-Copy `scripts/standalone_toc.py` to your Colab notebook and run it directly.
+Copy the code from [GitHub Gist](https://gist.github.com/1abcdefggs/21632dd1f3670e8d1506e4788ab514cc) to your Colab notebook and run it directly.
 
 ## Generate: Table of Contents for Cell IDs
 <img width="689" height="376" alt="image" src="https://github.com/user-attachments/assets/9651799a-d1c4-40b8-9bc2-e7b646be0a20" />
