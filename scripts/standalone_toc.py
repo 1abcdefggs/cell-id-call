@@ -31,7 +31,7 @@ import IPython
 import json
 import os
 from google.colab import _message
-from IPython.display import display, HTML
+from IPython.display import display, HTML, Javascript
 
 def _extract_heading_preview_standalone(source, cell_type, limit):
     """Extract heading preview from cell source."""
@@ -106,7 +106,13 @@ def generate_standalone_toc(filter_type, keyword, match_mode, limit, show_jump, 
 
     if show_stats: print(f"📊 Total: {stats['total']} | Matches: {match_count}")
 
-    # UI Button with improved JS for copying
+    # Store TOC in a global variable for easy access
+    import IPython
+    ip = IPython.get_ipython()
+    ip.user_ns['toc_copy_text'] = full_md
+    print("💡 Tip: The TOC is stored in the variable `toc_copy_text`. You can access it with: toc_copy_text")
+
+    # UI Button with Colab-compatible JS for copying
     js_content = json.dumps(full_md)
     button_id = "copy_btn_standalone"
     html_btn = f'''
@@ -118,18 +124,48 @@ def generate_standalone_toc(filter_type, keyword, match_mode, limit, show_jump, 
     <script>
     (function() {{
         const btn = document.getElementById("{button_id}");
-        if (!btn) return;
+        if (!btn) {{
+            console.error("Button not found");
+            return;
+        }}
+        
         btn.onclick = function() {{
             const text = {js_content};
-            if (!navigator.clipboard) {{
-               const textArea = document.createElement("textarea");
-               textArea.value = text;
-               document.body.appendChild(textArea);
-               textArea.select();
-               try {{ document.execCommand('copy'); }} catch (err) {{ }}
-               document.body.removeChild(textArea);
+            console.log("Copy button clicked");
+            
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {{
+                navigator.clipboard.writeText(text)
+                    .then(() => {{
+                        const original = btn.innerText;
+                        btn.innerText = "✅ Copied!";
+                        btn.style.background = "#34a853";
+                        setTimeout(() => {{
+                            btn.innerText = original;
+                            btn.style.background = "#1a73e8";
+                        }}, 2000);
+                    }})
+                    .catch(err => {{
+                        console.error("Clipboard API failed:", err);
+                        fallbackCopy(text, btn);
+                    }});
             }} else {{
-                navigator.clipboard.writeText(text).then(() {{
+                console.log("Clipboard API not available, using fallback");
+                fallbackCopy(text, btn);
+            }}
+        }};
+        
+        function fallbackCopy(text, btn) {{
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {{
+                const successful = document.execCommand('copy');
+                if (successful) {{
                     const original = btn.innerText;
                     btn.innerText = "✅ Copied!";
                     btn.style.background = "#34a853";
@@ -137,9 +173,26 @@ def generate_standalone_toc(filter_type, keyword, match_mode, limit, show_jump, 
                         btn.innerText = original;
                         btn.style.background = "#1a73e8";
                     }}, 2000);
-                }});
+                }} else {{
+                    btn.innerText = "❌ Failed";
+                    btn.style.background = "#ea4335";
+                    setTimeout(() => {{
+                        btn.innerText = "📋 Copy TOC to Clipboard";
+                        btn.style.background = "#1a73e8";
+                    }}, 2000);
+                }}
+            }} catch (err) {{
+                console.error("Fallback copy failed:", err);
+                btn.innerText = "❌ Error";
+                btn.style.background = "#ea4335";
+                setTimeout(() => {{
+                    btn.innerText = "📋 Copy TOC to Clipboard";
+                    btn.style.background = "#1a73e8";
+                }}, 2000);
             }}
-        }};
+            
+            document.body.removeChild(textArea);
+        }}
     }})();
     </script>
     '''

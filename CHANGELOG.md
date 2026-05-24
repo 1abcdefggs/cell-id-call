@@ -33,6 +33,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add version information to README.md
 - Update .gitignore with comprehensive exclusions
 
+## [0.3.0] - 2026-05-24
+
+### Added
+- Clipboard copy fallback mechanism with improved error handling
+- Global variable `toc_copy_text` for easy TOC access when clipboard API is blocked
+- Console logging for debugging clipboard copy issues
+- User feedback on clipboard copy success/failure (✅ Copied!, ❌ Failed, ❌ Error)
+- assets/ directory for static assets
+- Demo GIF (assets/toc-demo.gif) for README.md
+
+### Changed
+- Improve JavaScript clipboard copy compatibility with Colab environment
+- Update README.md image reference from GitHub attachments to local GIF
+- Add assets/ directory to project structure documentation
+- Enhance standalone_toc.py with better clipboard error handling
+- Enhance notebook STAND-ALONE section with same clipboard improvements
+
 ## [Unreleased]
 
 ### Added
