@@ -36,11 +36,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Directory structure refactoring (src/, scripts/, notebooks/)
-- Module version in src/toc_generator.py
-- Standalone version in scripts/standalone_toc.py
+- MIT license headers to all source files (scripts/standalone_toc.py, src/toc_generator.py, src/__init__.py)
+- Background information and usage instructions to standalone_toc.py docstring
+- Source URL to standalone_toc.py docstring
+- GitHub Gist link to README.md for standalone version distribution
 
 ### Changed
-- Move notebook to notebooks/ directory
-- Update .gitignore to track src/toc_generator.py
-- Update README.md with new structure and usage instructions
+- Enhance standalone_toc.py documentation with comprehensive usage guide
+- Update README.md standalone version section with Gist link
