@@ -1,9 +1,6 @@
 # TOC Preview Logs
 TOC Preview.md
 
-# Dynamically generated module
-toc_generator.py
-
 # Python cache
 *.pyc
 __pycache__/

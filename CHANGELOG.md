@@ -24,10 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- 
-
-### Fixed
-- 
+- Directory structure refactoring (src/, scripts/, notebooks/)
+- Module version in src/toc_generator.py
+- Standalone version in scripts/standalone_toc.py
 
 ### Changed
-- 
+- Move notebook to notebooks/ directory
+- Update .gitignore to track src/toc_generator.py
+- Update README.md with new structure and usage instructions
