@@ -1,7 +1,30 @@
+# Copyright (c) 2026 1abcdefggs
+# Licensed under the MIT License
+# See LICENSE file in the project root for full license information
+
 #!/usr/bin/env python3
 """
 Standalone TOC Generator for Google Colab
 This script generates a table of contents for Colab notebooks without requiring external modules.
+
+Background:
+When working with AI assistants like Gemini in Colab, they often reference Cell IDs when explaining
+code or content. This tool helps you map Cell IDs to their corresponding headings and content,
+making it easier to understand which cell the AI is referring to.
+
+Usage:
+1. Copy this code to a new cell in your Colab notebook
+2. Run the cell to generate a table of contents
+3. Customize parameters in generate_standalone_toc() as needed:
+   - filter_type: "All", "Code", or "Markdown"
+   - keyword: Search keyword (empty string for all cells)
+   - match_mode: "Cell-ID" or "Content"
+   - limit: Preview character limit (default: 70)
+   - show_jump: Show jump links (True/False)
+   - show_stats: Show statistics (True/False)
+   - save_log: Save to "TOC Preview.md" (True/False)
+
+Source: https://github.com/1abcdefggs/cell-id-call
 """
 
 import IPython
